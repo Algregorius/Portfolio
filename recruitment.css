@@ -1,0 +1,46 @@
+
+body {
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+.job-listing {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.job-listing:hover {
+  transform: translateY(-5px);
+}
+
+.job-title {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #007acc;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: #007acc;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}

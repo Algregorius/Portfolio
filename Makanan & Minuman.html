@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <link rel="icon" href="favicon.png">
+  <link rel="icon" href="favicon.png">
+  <meta charset="UTF-8">
+  <title>Menu Makanan & Minuman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#43a047">
+  <style>
+    :root {
+      --bg: #121212;
+      --card-bg: #1f1f1f;
+      --text: #f0f0f0;
+      --accent: #43a047;
+      --shadow: rgba(255,255,255,0.05);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #1e88e5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+    }
+    .card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      animation: fadeIn 0.5s ease;
+    }
+    .card h2 { margin-top: 0; }
+    .card p { margin: 0.3rem 0; }
+    .button {
+      margin-top: 1rem;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #cart {
+      max-width: 1000px;
+      margin: 3rem auto;
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Menu Makanan & Minuman</h1>
+
+<div style="text-align:center; margin-bottom:1rem;">
+  <label for="filter">Filter Kategori: </label>
+  <select id="filter" onchange="renderMenu(this.value)">
+    <option value="all">Semua</option>
+    <option value="Makanan">Makanan</option>
+    <option value="Minuman">Minuman</option>
+  </select>
+</div>
+
+<div class="grid" id="menu"></div>
+
+<div id="cart">
+  <h2>Keranjang Belanja</h2>
+  <ul id="cart-items"></ul>
+  <p><strong>Total: Rp <span id="total">0</span></strong></p>
+  <a id="checkout" href="#" target="_blank" class="button" style="background:#1e88e5;">Checkout via WhatsApp</a>
+</div>
+
+<button onclick="scrollToTop()" id="scrollTopBtn">↑ Ke Atas</button>
+
+<script>
+
+const products = [
+  { id: 0, name: 'Nasi Goreng Kah', price: 28000, category: 'Makanan' },
+  { id: 1, name: 'Seafood Platter', price: 75000, category: 'Makanan' },
+  { id: 2, name: 'Gorengan Mix', price: 25000, category: 'Makanan' },
+  { id: 4, name: 'Teh Manis Dingin', price: 8000, category: 'Minuman' },
+  { id: 5, name: 'Kopi Susu', price: 12000, category: 'Minuman' },
+  { id: 7, name: 'Kopi Hitam', price: 10000, category: 'Minuman' },
+  { id: 8, name: 'Air Le Minerale', price: 6000, category: 'Minuman' },
+  { id: 9, name: 'Air Mineral Aqua', price: 7000, category: 'Minuman' },
+  { id: 10, name: 'Teh Tarik', price: 10000, category: 'Minuman' },
+];
+
+const cart = {};
+const menuEl = document.getElementById('menu');
+const cartEl = document.getElementById('cart-items');
+const totalEl = document.getElementById('total');
+const checkoutEl = document.getElementById('checkout');
+
+function renderMenu(filter = 'all') {
+  menuEl.innerHTML = '';
+  const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+  filtered.forEach(product => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <h2>${product.name}</h2>
+      <p>Kategori: ${product.category}</p>
+      <p>Harga: Rp ${product.price.toLocaleString('id-ID')}</p>
+      <button class="button" onclick="addToCart(${product.id})">Pesan</button>
+    `;
+    menuEl.appendChild(div);
+  });
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  renderCart();
+}
+
+function removeFromCart(id) {
+  if (cart[id] > 1) {
+    cart[id]--;
+  } else {
+    delete cart[id];
+  }
+  renderCart();
+}
+
+function renderCart() {
+  cartEl.innerHTML = '';
+  let total = 0;
+  for (const [id, qty] of Object.entries(cart)) {
+    const product = products.find(p => p.id == id);
+    const subtotal = product.price * qty;
+    total += subtotal;
+    const li = document.createElement('li');
+    li.innerHTML = `${product.name} x${qty} = Rp ${subtotal.toLocaleString('id-ID')}
+      <button onclick="removeFromCart(${id})" style="margin-left:10px; color:red;">❌</button>`;
+    cartEl.appendChild(li);
+  }
+  totalEl.textContent = total.toLocaleString('id-ID');
+  const message = Object.entries(cart).map(([id, qty]) => {
+    const p = products.find(pr => pr.id == id);
+    return `- ${p.name} x${qty} = Rp ${(p.price * qty).toLocaleString('id-ID')}`;
+  }).join('%0A');
+  const waMsg = `Halo! Saya ingin memesan:%0A${message}%0A%0ATotal: Rp ${total.toLocaleString('id-ID')}`;
+  checkoutEl.href = `https://wa.me/6285174075420?text=${waMsg}`;
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.onscroll = function() {
+  document.getElementById("scrollTopBtn").style.display =
+    document.body.scrollTop > 200 || document.documentElement.scrollTop > 200 ? "block" : "none";
+};
+
+renderMenu();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js');
+    });
+  }
+</script>
+<a href="index.html" class="back-link">← Kembali ke Beranda</a>
+</body>
+</html>
