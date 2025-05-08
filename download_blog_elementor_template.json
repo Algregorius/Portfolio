@@ -1,0 +1,88 @@
+{
+  "title": "Download Musik & Video",
+  "type": "page",
+  "content": [
+    {
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "Download Musik & Video Gratis",
+            "align": "center",
+            "size": "xl"
+          }
+        },
+        {
+          "elType": "widget",
+          "widgetType": "text-editor",
+          "settings": {
+            "editor": "<p style='text-align:center;'>Kamu dapat mengunduh musik MP3 secara langsung dan mengkonversi video YouTube menjadi file MP4.</p>"
+          }
+        }
+      ]
+    },
+    {
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "\ud83c\udfb5 Download Lagu Lokal",
+            "align": "left"
+          }
+        },
+        {
+          "elType": "widget",
+          "widgetType": "text-editor",
+          "settings": {
+            "editor": "<p>Download lagu gratis dari server kami.</p>"
+          }
+        },
+        {
+          "elType": "widget",
+          "widgetType": "button",
+          "settings": {
+            "text": "Download Lagu",
+            "link": {
+              "url": "https://example.com/files/lagu-ku.mp3"
+            },
+            "align": "left"
+          }
+        }
+      ]
+    },
+    {
+      "elType": "section",
+      "settings": {},
+      "elements": [
+        {
+          "elType": "widget",
+          "widgetType": "heading",
+          "settings": {
+            "title": "\ud83c\udfac Download Video dari YouTube",
+            "align": "left"
+          }
+        },
+        {
+          "elType": "widget",
+          "widgetType": "text-editor",
+          "settings": {
+            "editor": "<p>Masukkan link video YouTube yang ingin kamu unduh:</p>"
+          }
+        },
+        {
+          "elType": "widget",
+          "widgetType": "html",
+          "settings": {
+            "html": "\n<form action='https://yt1s.ltd/en355' method='get' target='_blank'>\n  <input type='text' name='q' placeholder='https://youtube.com/...' required style='width:100%; padding:10px; margin:10px 0;'>\n  <button type='submit' style='padding:10px 20px; background:#e53935; color:white; border:none; border-radius:6px;'>Convert & Download</button>\n</form>\n"
+          }
+        }
+      ]
+    }
+  ]
+}
